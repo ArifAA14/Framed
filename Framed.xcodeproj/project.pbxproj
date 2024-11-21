@@ -29,9 +29,22 @@
 		98D738EC2CEF76AC008673D6 /* FramedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FramedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		98D7391C2CEF775B008673D6 /* Exceptions for "Framed" folder in "Framed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 98D738D02CEF76AB008673D6 /* Framed */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		98D738D32CEF76AB008673D6 /* Framed */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				98D7391C2CEF775B008673D6 /* Exceptions for "Framed" folder in "Framed" target */,
+			);
 			path = Framed;
 			sourceTree = "<group>";
 		};
@@ -401,6 +414,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Framed/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires permissions to access and record your screen.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -428,6 +443,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Framed/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires permissions to access and record your screen.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
