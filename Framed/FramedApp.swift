@@ -19,7 +19,7 @@ struct FramedApp: App {
             } else {
                 MainView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .frame(minWidth: 600, minHeight: 500)
+                    .frame(minWidth: 700, minHeight: 600)
                     .background(VisualEffectBlur())
             }
         }

@@ -130,6 +130,27 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             try await activeStream?.stopCapture()
             print("Recording stopped successfully. File saved at: \(outputURL)")
             closeOverlay()
+            let savePanel = NSSavePanel()
+            savePanel.title = "Save Recording"
+            savePanel.allowedContentTypes = [UTType.movie]
+            savePanel.nameFieldStringValue = "framed_capture.mov"
+            savePanel.canCreateDirectories = true
+            
+            if savePanel.runModal() == .OK, let selectedURL = savePanel.url {
+                print("User selected save location: \(selectedURL)")
+                
+                do {
+                    try FileManager.default.moveItem(at: outputURL, to: selectedURL)
+                    print("File successfully moved to: \(selectedURL)")
+                } catch {
+                    print("Error moving file to selected location: \(error)")
+
+                }
+            } else {
+                print("User canceled save panel or no URL selected.")
+
+            }
+            
         } catch {
             print("Error stopping recording: \(error)")
         }

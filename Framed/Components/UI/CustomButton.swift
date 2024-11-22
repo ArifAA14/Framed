@@ -27,7 +27,7 @@ struct CustomButton: View {
         .padding(.vertical, 2.5)
         .padding(.horizontal, 5)
         .background(
-            .ultraThinMaterial.opacity(0.5),
+            .ultraThinMaterial.opacity(0.78),
             in: RoundedRectangle(
                 cornerRadius: 6,
                 style: .circular
@@ -35,7 +35,7 @@ struct CustomButton: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 6, style: .circular)
-                .stroke(Color.white.opacity(0.189), lineWidth: 0.426)
+                .stroke(Color.white.opacity(0.069), lineWidth: 0.89)
         )
     }
 }

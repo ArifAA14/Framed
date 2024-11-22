@@ -15,20 +15,25 @@ struct RecentGrid: View {
                 
                 ForEach(0..<8) { _ in
                     VStack {
-                        Color.white.opacity(0.06)
+                        Color.white.opacity(0.136)
                             .blendMode(.luminosity)
                             .frame(maxWidth: .infinity, minHeight: 100)
                             .frame(height: 150)
-                            .cornerRadius(6)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .stroke(Color.white.opacity(0.18), lineWidth: 1.126)
+                            )
                             .shadow(radius: 10)
                         Text("Title")
                             .padding(.top, 4)
+                            .padding(.bottom, 0.5)
                             .padding(.horizontal, 10)
                             .fontWeight(.medium)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         Text("Lorem Ipsum..")
-                            .padding(.top, 0.002)
+                            .padding(.top, 0)
                             .padding(.horizontal, 10)
                             .fontWeight(.light)
                             .frame(maxWidth: .infinity, alignment: .leading)

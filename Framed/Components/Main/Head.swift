@@ -13,11 +13,11 @@ struct Head: View {
         HStack {
             Text("Library")
                 .font(.largeTitle)
-                .fontDesign(.default)
+                .fontDesign(.serif)
                 .foregroundColor(.white.opacity(1))
                 .fontWeight(.light)
             Spacer()
-            CustomButton(label: "New",
+            CustomButton(label: "Capture",
                          icon: "record.circle",
                          action: handleNewCapture)
         }
