@@ -15,6 +15,8 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
         return documentsDirectory.appendingPathComponent("capture.mov")
     }()
     
+    private var dimmingLayer: CAShapeLayer?
+    
     override var canBecomeKey: Bool { true }
     
     init() {
@@ -47,27 +49,26 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
     func closeOverlay() {
         self.orderOut(nil)
         if let mainWindow = NSApplication.shared.windows.first {
-            mainWindow.makeKeyAndOrderFront(nil) // Show and activate main window
+            mainWindow.makeKeyAndOrderFront(nil)
             NSApplication.shared.activate(ignoringOtherApps: true)
         }
     }
     
+
+    
     func didSelect(rect: CGRect) async {
-        print("Original Selected Rectangle: \(rect)")
+        print("Starting Process with rectangle: \(rect)")
+        dimmingLayer = applyDimmingEffect(to: contentView, selectedRect: rect)
         do {
             let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
             guard let mainDisplay = content.displays.first else {
-                print("No display found")
                 return
             }
-            print("Main display: \(mainDisplay)")
             
             let overlayWindow = content.windows.first { $0.windowID == UInt32(self.windowNumber) }
             
             if let overlayWindow = overlayWindow {
                 print("Excluding OverlayWindow: \(overlayWindow)")
-            } else {
-                print("OverlayWindow not found in shareable content. Proceeding without exclusion.")
             }
             
             let excludedWindows = overlayWindow != nil ? [overlayWindow!] : []
@@ -76,13 +77,8 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             let screenHeight = mainDisplay.frame.height
             
             // Adjust for screen scaling and coordinate system
-            let adjustedRect = CGRect(
-                x: rect.origin.x * scale,
-                y: (screenHeight - rect.origin.y - rect.height) * scale,
-                width: rect.width * scale,
-                height: rect.height * scale
-            )
-            print("Adjusted Rectangle: \(adjustedRect)")
+            let adjustedRect = adjustedRect(for: rect, onScreen: screenHeight, scale: scale)
+
             
             let streamConfig = SCStreamConfiguration()
             streamConfig.sourceRect = adjustedRect
@@ -90,7 +86,7 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             streamConfig.height = Int(adjustedRect.height)
             streamConfig.scalesToFit = true
             streamConfig.preservesAspectRatio = true
-            streamConfig.pixelFormat = kCVPixelFormatType_420YpCbCr10BiPlanarVideoRange 
+            streamConfig.pixelFormat = kCVPixelFormatType_420YpCbCr10BiPlanarVideoRange
             print("Final Stream Configuration: \(streamConfig.sourceRect)")
             
             // Content filter, excluding the OverlayWindow
@@ -101,17 +97,15 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             // Recording Output
             let recordingConfiguration = SCRecordingOutputConfiguration()
             recordingConfiguration.outputURL = outputURL
-            recordingConfiguration.outputFileType = .mov
-            recordingConfiguration.videoCodecType = .h264
+            recordingConfiguration.outputFileType = .mp4
+            recordingConfiguration.videoCodecType = .hevc
             
             let recordingOutput = SCRecordingOutput(configuration: recordingConfiguration, delegate: self)
             try stream.addRecordingOutput(recordingOutput)
-            print("Recording output added. Starting capture.")
-            
             try await stream.startCapture()
             print("Recording started successfully.")
             
-            // Limit recordings to 5s.
+            // Limit recordings to 5s, later let users decide, limit to 10??
             Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] _ in
                 Task {
                     await self?.stopStream()
@@ -129,31 +123,25 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
         do {
             try await activeStream?.stopCapture()
             print("Recording stopped successfully. File saved at: \(outputURL)")
+            removeDimmingEffect(from: dimmingLayer)
             closeOverlay()
-            let savePanel = NSSavePanel()
-            savePanel.title = "Save Recording"
-            savePanel.allowedContentTypes = [UTType.movie]
-            savePanel.nameFieldStringValue = "framed_capture.mov"
-            savePanel.canCreateDirectories = true
             
+            let desktopDirectory = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first!
+            let framedLibraryFolder = desktopDirectory.appendingPathComponent("Framed Library")
+            ensureDirectoryExists(at: framedLibraryFolder)
+            
+            let savePanel = configureSavePanel(defaultDirectory: framedLibraryFolder, fileName: "framed_capture.mov")
             if savePanel.runModal() == .OK, let selectedURL = savePanel.url {
                 print("User selected save location: \(selectedURL)")
-                
-                do {
-                    try FileManager.default.moveItem(at: outputURL, to: selectedURL)
-                    print("File successfully moved to: \(selectedURL)")
-                } catch {
-                    print("Error moving file to selected location: \(error)")
-
-                }
+                try FileManager.default.moveItem(at: outputURL, to: selectedURL)
+                print("File successfully moved to: \(selectedURL)")
             } else {
                 print("User canceled save panel or no URL selected.")
-
             }
-            
         } catch {
             print("Error stopping recording: \(error)")
         }
     }
+
 }
 
