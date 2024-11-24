@@ -19,18 +19,18 @@ struct Head: View {
             Spacer()
             CustomButton(label: "Capture",
                          icon: "record.circle",
-                         action: handleNewCapture)
+                         action: {})
         }
         .frame(maxWidth: .infinity, alignment: .center)
     }
     
-    func handleNewCapture (){
-        print("Capture button tapped!")
-        if let mainWindow = NSApplication.shared.windows.first {
-            if mainWindow.isVisible {
-                mainWindow.orderOut(nil) // Hide the main window
-            }
-        }
-        _ = showOverlay()
-    }
+//    func handleNewCapture (){
+//        print("Capture button tapped!")
+//        if let mainWindow = NSApplication.shared.windows.first {
+//            if mainWindow.isVisible {
+//                mainWindow.orderOut(nil) // Hide the main window
+//            }
+//        }
+//        _ = showOverlay()
+//    }
 }

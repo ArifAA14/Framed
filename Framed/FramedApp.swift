@@ -9,38 +9,12 @@ import SwiftUI
 
 @main
 struct FramedApp: App {
-    @State private var showSplashScreen: Bool = false
-    var body: some Scene {
-        WindowGroup {
-            if showSplashScreen {
-                SplashView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(VisualEffectBlur())
-            } else {
-                MainView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .frame(minWidth: 700, minHeight: 600)
-                    .background(VisualEffectBlur())
-            }
-        }
-        
-        .windowStyle(.hiddenTitleBar)
-        .commands {
-            CommandGroup(replacing: .newItem) {}
-        }
-    }
-}
-
-struct VisualEffectBlur: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSVisualEffectView {
-        let view = NSVisualEffectView()
-        view.material = .fullScreenUI
-        view.blendingMode = .behindWindow
-        view.state = .active
-        return view
-    }
     
-    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+    var body: some Scene {
+        MenuBarExtra("Framed", systemImage: "rectangle.dashed.badge.record") {
+                PopoverContent()
+        }
+        .menuBarExtraStyle(.window)
     }
 }
 

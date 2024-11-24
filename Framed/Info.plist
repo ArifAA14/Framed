@@ -4,7 +4,5 @@
 <dict>
 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
 	<true/>
-	<key>NSDesktopFolderUsageDescription</key>
-	<string>Allow access to desktop folder to save your library</string>
 </dict>
 </plist>

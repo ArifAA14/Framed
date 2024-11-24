@@ -14,10 +14,54 @@
             filePath = "Framed/Utils/OverlayWindow.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "OverlayWindow"
-            landmarkType = "3">
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "stopStream()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6742CF56-2BFF-4264-81C8-38F29D742E77 - 3680b4de8fc8aa0e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Framed.OverlayWindow.stopStream() async -&gt; ()"
+                  moduleName = "Framed.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/T7%20Touch/Apps/Framed/Framed/Utils/OverlayWindow.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "144"
+                  endingLineNumber = "144">
+               </Location>
+               <Location
+                  uuid = "6742CF56-2BFF-4264-81C8-38F29D742E77 - aa19233b389e4400"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Framed.OverlayWindow.stopStream() async -&gt; ()"
+                  moduleName = "Framed.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/T7%20Touch/Apps/Framed/Framed/Utils/OverlayWindow.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "144"
+                  endingLineNumber = "144">
+               </Location>
+               <Location
+                  uuid = "6742CF56-2BFF-4264-81C8-38F29D742E77 - 15ede60a820ab301"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Framed.OverlayWindow.stopStream() async -&gt; ()"
+                  moduleName = "Framed.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/T7%20Touch/Apps/Framed/Framed/Utils/OverlayWindow.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "144"
+                  endingLineNumber = "144">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
