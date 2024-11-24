@@ -39,12 +39,27 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
         self.contentView = selectionTool
     }
     
-    override func keyDown(with event: NSEvent) {
-        if event.keyCode == 53 {
-            print("Escape key pressed")
-            closeOverlay()
+    
+        @MainActor
+        private func cleanupAndStopStream() async throws {
+            try await activeStream?.stopCapture()
+            removeDimmingEffect(from: dimmingLayer)
+            self.orderOut(nil)
+            self.activeStream = nil
+            NSApplication.shared.activate(ignoringOtherApps: true)
         }
-    }
+    
+        override func keyDown(with event: NSEvent) {
+            if event.keyCode == 53 { // Escape key
+                Task {
+                    do {
+                        try await cleanupAndStopStream()
+                    } catch {
+                        print("Error stopping capture: \(error)")
+                    }
+                }
+            }
+        }
     
     func closeOverlay() {
         self.orderOut(nil) // Close the overlay
