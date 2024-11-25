@@ -62,8 +62,8 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
         }
     
     func closeOverlay() {
-        self.orderOut(nil) // Close the overlay
-        NSApplication.shared.activate(ignoringOtherApps: true) // Refocus on the menu bar app
+        self.orderOut(nil)
+        NSApplication.shared.activate(ignoringOtherApps: true)
     }
     
 
