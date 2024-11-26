@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PopoverContent: View {
+    var openConfigWindow: () -> Void
     var body: some View {
         VStack(spacing: 0) {
             Button (action: handleNewCapture) {
@@ -37,9 +38,7 @@ struct PopoverContent: View {
             .keyboardShortcut("G")
             .frame(minHeight: 100)
             Divider()
-            Button(action: {
-                print("Settings clicked")
-            }) {
+            Button(action: openConfigWindow) {
                 HStack(spacing: 6) {
                     Text("Preferences")
                         .font(.system(size: 12))
@@ -54,7 +53,7 @@ struct PopoverContent: View {
             .buttonStyle(.plain)
             Divider()
             Button(action: {
-                print("Quit clicked")
+                NSApplication.shared.terminate(nil)
             }) {
                 HStack(spacing: 6) {
                     Text("Quit")
@@ -77,11 +76,7 @@ struct PopoverContent: View {
     
     func handleNewCapture (){
         print("Capture button tapped!")
-        
-        // Show the overlay
         _ = showOverlay()
-
     }
-
 }
 
