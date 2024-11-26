@@ -9,17 +9,30 @@ import SwiftUI
 
 struct SettingsView : View {
     var body : some View {
-        VStack {
-            Text("Settings")
-                .font(.title)
-                .padding(.bottom, 20)
-            
-            Text("Adjust your preferences here.")
-                .font(.body)
+        TabView {
+            Tab("General", systemImage: "gear") {
+                VStack {
+                    Text("General Settings view to come here")
+                }
+                .padding(.top,20)
+            }
+            Tab("Advanced", systemImage: "tray.and.arrow.down.fill") {
+                VStack {
+                    Text("Advanced Settings View to come here")
+                }
+                .padding(.top,20)
+
+            }
         }
-        .padding()
+        .tabViewStyle(.sidebarAdaptable)
+        .padding(.top, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black.opacity(0.213))
-        .ignoresSafeArea()
+        .background(.black.opacity(0.231))
     }
 }
+
+
+#Preview {
+    SettingsView()
+}
+
