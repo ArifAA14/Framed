@@ -40,33 +40,33 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
     }
     
     
-        @MainActor
-        private func cleanupAndStopStream() async throws {
-            try await activeStream?.stopCapture()
-            removeDimmingEffect(from: dimmingLayer)
-            self.orderOut(nil)
-            self.activeStream = nil
-            NSApplication.shared.activate(ignoringOtherApps: true)
-        }
+    @MainActor
+    private func cleanupAndStopStream() async throws {
+        try await activeStream?.stopCapture()
+        removeDimmingEffect(from: dimmingLayer)
+        self.orderOut(nil)
+        self.activeStream = nil
+        NSApplication.shared.activate(ignoringOtherApps: true)
+    }
     
-        override func keyDown(with event: NSEvent) {
-            if event.keyCode == 53 { // Escape key
-                Task {
-                    do {
-                        try await cleanupAndStopStream()
-                    } catch {
-                        print("Error stopping capture: \(error)")
-                    }
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == 53 { // Escape key
+            Task {
+                do {
+                    try await cleanupAndStopStream()
+                } catch {
+                    print("Error stopping capture: \(error)")
                 }
             }
         }
+    }
     
     func closeOverlay() {
         self.orderOut(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
     }
     
-
+    
     
     func didSelect(rect: CGRect) async {
         print("Starting Process with rectangle: \(rect)")
@@ -90,7 +90,7 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             
             // Adjust for screen scaling and coordinate system
             let adjustedRect = adjustedRect(for: rect, onScreen: screenHeight, scale: scale)
-
+            
             
             let streamConfig = SCStreamConfiguration()
             streamConfig.sourceRect = adjustedRect
@@ -127,9 +127,9 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             print("Error setting up recording: \(error)")
         }
     }
-
-
-
+    
+    
+    
     @MainActor
     func stopStream() async {
         do {
@@ -154,6 +154,6 @@ class OverlayWindow: NSWindow, SelectionToolDelegate, SCRecordingOutputDelegate 
             print("Error stopping recording: \(error)")
         }
     }
-
+    
 }
 

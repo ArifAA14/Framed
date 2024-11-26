@@ -34,6 +34,7 @@ struct PopoverContent: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .keyboardShortcut("G")
             .frame(minHeight: 100)
             Divider()
             Button(action: {

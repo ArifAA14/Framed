@@ -1,13 +1,5 @@
-//
-//  SelectionTool.swift
-//  MyFirst
-//
-//  Created by Ali on 21/11/2024.
-//
-
 import Cocoa
-import QuartzCore
-
+import SwiftUI
 
 protocol SelectionToolDelegate: AnyObject {
     func didSelect(rect: CGRect) async
@@ -18,11 +10,12 @@ class SelectionTool: NSView {
     private var startPoint: NSPoint = .zero
     private var endPoint: NSPoint = .zero
     private var selectionLayer: CAShapeLayer = CAShapeLayer()
+    private var progressHostingView: NSHostingView<ProgressBarView>? 
     
-    
-    override init (frame frameRect: NSRect) {
+    override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         self.wantsLayer = true
+        
         self.layer?.addSublayer(selectionLayer)
         selectionLayer.fillColor = NSColor.clear.cgColor
         selectionLayer.strokeColor = NSColor.white.cgColor
@@ -34,11 +27,11 @@ class SelectionTool: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // Track where the mouse click starts
     override func mouseDown(with event: NSEvent) {
         startPoint = event.locationInWindow
-        endPoint = startPoint // Initialize endPoint to startPoint
-        updateSelection() // Initialize the selection rectangle
+        endPoint = startPoint
+        updateSelection()
+        removeProgressView()
     }
     
     override func mouseDragged(with event: NSEvent) {
@@ -54,6 +47,7 @@ class SelectionTool: NSView {
             await delegate?.didSelect(rect: rect)
         }
         print("Selected Rectangle: \(selectionRect())")
+        showProgressView(in: rect, duration: 5)
     }
     
     private func updateSelection() {
@@ -69,6 +63,29 @@ class SelectionTool: NSView {
             y: min(startPoint.y, endPoint.y),
             width: abs(endPoint.x - startPoint.x),
             height: abs(endPoint.y - startPoint.y)
-            )
+        )
+    }
+    
+    private func showProgressView(in rect: CGRect, duration: TimeInterval) {
+        let progressView = ProgressBarView(duration: duration)
+        let hostingView = NSHostingView(rootView: progressView)
+        hostingView.frame = CGRect(
+            x: rect.minX,
+            y: rect.minY - 60,
+            width: rect.width,
+            height: 20
+        )
+        self.addSubview(hostingView)
+        self.progressHostingView = hostingView
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.removeProgressView()
+        }
+    }
+    
+    private func removeProgressView() {
+        progressHostingView?.removeFromSuperview()
+        progressHostingView = nil
     }
 }
+
