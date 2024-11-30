@@ -22,7 +22,7 @@ struct FramedApp: App {
             SettingsView()
                 .background(VisualEffectBlur())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .frame(minWidth: 450, minHeight: 400)
+                .frame(minWidth: 350, minHeight: 200)
                 .ignoresSafeArea()
         }
         .windowStyle(.hiddenTitleBar)

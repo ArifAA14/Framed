@@ -40,7 +40,7 @@ struct PopoverContent: View {
             Divider()
             Button(action: openConfigWindow) {
                 HStack(spacing: 6) {
-                    Text("Preferences")
+                    Text("Settings")
                         .font(.system(size: 12))
                         .foregroundColor(.white.opacity(0.664))
                     Spacer()
