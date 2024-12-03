@@ -21,11 +21,13 @@ struct FramedApp: App {
         Window("Preferences", id: "settings") {
             SettingsView()
                 .background(VisualEffectBlur())
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .frame(minWidth: 350, minHeight: 200)
-                .ignoresSafeArea()
+                .frame(maxWidth: 600, maxHeight: 600)
+                .frame(minWidth: 600, minHeight: 600)
+                .fixedSize()
         }
         .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
+        
        
     }
     

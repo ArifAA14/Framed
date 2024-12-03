@@ -17,71 +17,38 @@ struct GeneralSettingsView : View {
     var body : some View {
         VStack {
             
-            HStack{
-                Text("Duration (s)")
-                    .foregroundColor(.white.opacity(0.777))
-                Spacer()
-                Picker("", selection: $selectedDuration) {
-                    ForEach(durations, id: \.self) { duration  in
-                        Text(String(duration))
-                        
-                    }
-                }
-                .frame(maxWidth: 200)
-                .pickerStyle(.palette)
-                .paletteSelectionEffect(.automatic)
-            }
-            .padding(.top, 10)
-            .padding(.horizontal, 20)
-            Divider()
-                .padding(.top, 10)
-            
-            
-            HStack{
-                Text("Export Location")
-                    .foregroundColor(.white.opacity(0.777))
-                Spacer()
-                Button {
-                    self.openFile.toggle()
-                } label: {
-                    HStack{
-                        Text("Select")
-                            .font(.system(size: 14))
-                            .foregroundColor(.blue)
-                    
-                    }
-                }
-                .buttonStyle(.plain)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .fileImporter(isPresented: $openFile, allowedContentTypes: [.mp3, .quickTimeMovie], onCompletion: {result in })
-            }
-            .padding(.top, 10)
-            .padding(.horizontal, 20)
-            Divider()
-                .padding(.top, 10)
-            
-            
-            HStack{
+            HStack (alignment: .top, spacing: 20){
                 Text("Duration")
-                    .foregroundColor(.white.opacity(0.777))
-                Spacer()
-                Picker("", selection: $selectedDuration) {
-                    ForEach(durations, id: \.self) { duration  in
-                        Text(String(duration))
-                        
-                    }
-                }
-                .frame(maxWidth: 150)
+                    .foregroundColor(.white.opacity(0.797))
+                    .frame(alignment: .top)
+                    .font(.system(size: 12, weight: .medium))
+//                Picker("", selection: $selectedDuration) {
+//                    ForEach(durations, id: \.self) { duration  in
+//                        Text(String(duration))
+//                        
+//                    }
+//                }
+//                .frame(maxWidth: 200)
+//                .pickerStyle(.palette)
+//                .paletteSelectionEffect(.automatic)
+                
+                DurationPicker(selectedDuration: $selectedDuration)
             }
-            .padding(.top, 10)
+            .padding(.top, 0)
             .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .top)
+            
             Divider()
-                .padding(.top, 10)
+                .padding(.top, 20)
+           Spacer()
+            
         }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .padding(0)
-        
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(10)
         .padding(.top, 20)
-        Spacer()
     }
+}
+
+#Preview {
+    GeneralSettingsView()
 }

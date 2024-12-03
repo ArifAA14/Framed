@@ -10,10 +10,9 @@ import SwiftUI
 struct SettingsView : View {
     var body : some View {
         GeneralSettingsView()
-        .padding(.top, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black.opacity(0.231))
         .ignoresSafeArea()
+        .padding(10)
     }
 }
 
